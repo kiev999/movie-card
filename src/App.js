@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import './App.css';
+import { Routes, Route } from 'react-router-dom';
+import Trailer from './Trailer';
+import {Link} from "react-router-dom"
 
 // MovieCard component
 const MovieCard = ({ movie }) => {
@@ -10,6 +13,7 @@ const MovieCard = ({ movie }) => {
         <h3>{movie.title}</h3>
         <p>{movie.description}</p>
         <p>Rating: {movie.rating}</p>
+        <Link to={`/movie/${movie.id}`}> Trailer </Link>
       </div>
     </div>
   );
@@ -124,28 +128,36 @@ const AddMovieForm = ({ onAddMovie }) => {
 // Main App component
 const App = () => {
   const [movies, setMovies] = useState([
-    {
+    { id:1,
       title: 'Inception',
       description: 'A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a C.E.O.',
       posterURL: 'https://m.media-amazon.com/images/M/MV5BMjAxMzY3NjcxNF5BMl5BanBnXkFtZTcwNTI5OTM0Mw@@._V1_.jpg      ',
       rating: 4.8,
+      trailer:"https://www.youtube.com/watch?v=YoHD9XEInc0"
+      
     },
     {
       title: 'The Shawshank Redemption',
       description: 'Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency.',
       posterURL: 'https://images.squarespace-cdn.com/content/v1/5c75dfa97d0c9166551f52b1/9351f4e2-94f9-42e2-81df-003d5fe7b8e0/9964546b0ba1f6e14a6045e34b341f8ca2a3569752c5afed95b89682fcde1a68._RI_V_TTW_.jpg',
       rating: 4.9,
+      trailer:"https://www.youtube.com/watch?v=NmzuHjWmXOc",
+      id: 2
     },
     {
       title: 'Oppenheimer',
       description: 'During World War II, Lieutenant General Leslie Groves Jr. appointed physicist J. Robert Oppenheimer to work on the top-secret Manhattan Project. Oppenheimer and a team of scientists spent years developing and designing the atomic bomb.',
       posterURL: '	https://alternativemovieposters.com/wp-content/uploads/2023/01/Dalton-Frizzell_OPPENHEIMER-1.jpg',
       rating: 4.3,
+      trailer: "https://www.youtube.com/watch?v=uYPbbksJxIg",
+      id: 3
     }, {
       title: 'Indiana Jones and the Dial of Destiny',
       description: 'After spending over a decade teaching at Hunter College in New York, esteemed Dr. Jones, a professor of archaeology, is on the brink of retirement and looking forward to peaceful days.Everything changes after a surprise visit from his goddaughter, Helena Shaw, who is in search of a rare artifact that her father entrusted to Indy years ago: the famous Archimedes dial, a relic believed to have the power to locate temporal fissures. A skilled con artist, Helena steals the object and hastily leaves the country to sell it to the highest bidder. Indy has no choice but to embark on a pursuit. He dons his fedora and leather jacket once again for one last adventure...',
       posterURL: '	https://kinojanosik.pl/wp-content/uploads/2023/06/8071089.3.jpg',
       rating: 3.5,
+      trailer: "https://www.youtube.com/watch?v=eQfMbSe7F2g",
+      id : 4
     },
   ]);
 
@@ -168,7 +180,11 @@ const App = () => {
       <h1>Movie App</h1>
       <Filter onFilterChange={handleFilterChange} />
       <AddMovieForm onAddMovie={addMovie} />
-      <MovieList movies={filteredMovies} />
+      <Routes>
+        <Route path='/' element={<MovieList movies={filteredMovies} />}    />
+        <Route path="/movie/:id" element={<Trailer movie={movies}/>}    />
+      </Routes>
+      
     </div>
   );
 };
